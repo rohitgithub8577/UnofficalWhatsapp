@@ -1,0 +1,722 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+<meta charset="UTF-8"/>
+<meta name="viewport" content="width=device-width,initial-scale=1"/>
+<title>Dashboard</title>
+<link rel="stylesheet" href="/style.css">
+<link rel="stylesheet" href="./css/wabacss.css" />
+<script src="./JS/jquery-3.7.1.min.js"></script>
+<link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.5.1/css/all.min.css">
+
+</head>
+<body>
+    <div id="errormsg"></div>
+<div id="successmsg"></div>
+<div class="wam-shell">
+
+    <aside class="wam-sidebar" id="wamSidebar">
+  <div class="wam-sb-brand">
+      <div class="wam-sb-logo">💬</div>
+      <div class="wam-sb-brand-text">
+        <div class="wam-sb-brand-name">WA Manager</div>
+        <div class="wam-sb-brand-sub">Multi-Session</div>
+      </div>
+    </div>
+
+  <nav class="sb-nav">
+    <div class="nav-sec">Main Menu</div>
+
+   <a class="nav-item" href="dashboard.html">
+    <span class="nav-ico">
+        <i class="fa-solid fa-chart-line"></i>
+    </span>
+    Dashboard
+    <span class="nav-badge" id="nav-badge">0</span>
+</a>
+
+<a class="nav-item" id="registrationmenu" href="registration.html">
+    <span class="nav-ico">
+        <i class="fa-solid fa-user-plus"></i>
+    </span>
+    Registration
+</a>
+
+<a class="nav-item" href="createtemplate.html">
+    <span class="nav-ico">
+        <i class="fa-solid fa-file-lines"></i>
+    </span>
+    Template
+</a>
+
+<a class="nav-item" href="userprofile.html">
+    <span class="nav-ico">
+        <i class="fa-solid fa-user"></i>
+    </span>
+    Profile
+</a>
+
+  </nav>
+
+<div class="wam-sb-footer">
+      <div class="wam-sb-user">
+        <div class="wam-sb-avatar">👤</div>
+        <div class="wam-sb-user-info">
+          <div class="wam-sb-user-name" id="lbluser">Rohit Jaiswal</div>
+          <div class="wam-sb-user-role" id="lblroles">Admin</div>
+        </div>
+        <div class="wam-logout-btn" onclick="doLogout()" title="Logout">🚪</div>
+      </div>
+    </div>
+</aside>
+ <div class="wam-main" id="wamMain">
+
+  <header class="wam-topbar">
+      <div class="wam-topbar-left">
+        <div class="wam-topbar-title">Template</div>
+        <div class="wam-topbar-crumb">
+          <a href="dashboard.html">Dashboard</a>
+          <span class="wam-crumb-sep">›</span>
+        </div>
+     
+    
+  </div>
+  <div class="tb-right">
+      <div class="stat-chip"><span class="cdot g"></span><span id="c-conn">0</span>&nbsp;Connected</div>
+      <div class="stat-chip"><span class="cdot a"></span><span id="c-wait">0</span>&nbsp;Waiting</div>
+      <div class="stat-chip"><span class="cdot b"></span><span id="c-total">0</span>&nbsp;Total</div>
+    </div>
+    </header>
+
+
+ 
+
+   <div class="wam-content">
+
+    <!-- Summary -->
+     <table>
+        <tr>
+            <td style="width: 80%;">
+<div class="sum-row">
+      <div class="sum-card c1">
+        <div class="s-lbl">Total Sessions</div>
+        <div class="s-val" id="s-total">0</div>
+        <div class="s-ico">📊</div>
+      </div>
+      <div class="sum-card c2">
+        <div class="s-lbl">Connected</div>
+        <div class="s-val" id="s-conn">0</div>
+        <div class="s-ico">✅</div>
+      </div>
+      <div class="sum-card c3">
+        <div class="s-lbl">Waiting / QR</div>
+        <div class="s-val" id="s-wait">0</div>
+        <div class="s-ico">⏳</div>
+      </div>
+      <div>
+        
+      </div>
+    </div>
+            </td>
+            <td style="width: 20%;">
+      <button class="btn-new" onclick="openModal()">＋ New Session</button>
+
+            </td>
+        </tr>
+     </table>
+    
+
+    <!-- Page header -->
+    <div class="pg-head">
+      <div>
+        <div class="pg-title">Active Sessions</div>
+        <div class="pg-sub">Each session is independent — own QR, number and token</div>
+      </div>
+    </div>
+
+    <!-- Grid -->
+    <div class="grid" id="grid"></div>
+
+  </div>
+
+
+
+
+
+ <!-- FOOTER -->
+    <footer class="wam-footer">
+      <div class="wam-footer-copy">
+        © 2026 <strong>WA Manager</strong> · All rights reserved
+      </div>
+      <div class="wam-footer-links">
+        <a href="#">Privacy Policy</a>
+        <a href="#">Terms of Use</a>
+        <a href="#">Support</a>
+        <a href="#">API Docs</a>
+      </div>
+      <div class="wam-footer-version">v2.4.1</div>
+    </footer>
+
+
+</div>
+</div>
+<!-- ══════════════ MODAL ══════════════ -->
+<div class="m-ov" id="m-ov">
+  <div class="modal">
+    <div class="m-ico">📱</div>
+    <h2>New Session</h2>
+    <p>Creates a separate WhatsApp session with a unique QR code. Token remains permanent for the same WhatsApp number.</p>
+    <label>Session Name</label>
+    <input type="text" id="m-lbl" placeholder="e.g. session name" maxlength="40"/>
+    <div class="m-acts">
+      <button class="btn-cancel" onclick="closeModal()">Cancel</button>
+      <button class="btn-ok"     onclick="createSession()">Create Session</button>
+    </div>
+  </div>
+</div>
+
+
+<div id="deletePopup" class="popup-overlay">
+<div class="popup-box">
+<span class="close-popup" onclick="closeDeletePopup()">
+&times;
+</span>
+<h2>Delete Session</h2>
+<p class="popup-text">
+Are you sure want to delete this session?
+</p>
+<div class="popup-btns">
+<button class="no-btn" onclick="closeDeletePopup()">No</button>
+<button class="yes-btn" id="confirmDeleteBtn" onclick="fndeletesession();">Yes</button>
+</div>
+</div>
+</div>
+
+
+<div id="logoutPopup" class="popup-overlay">
+<div class="popup-box">
+<span class="close-popup" onclick="closelogoutDeletePopup()">
+&times;
+</span>
+<h2>Logout</h2>
+<p class="popup-text">
+Are you sure want to logout this session?
+</p>
+<div class="popup-btns">
+<button class="no-btn" onclick="closelogoutDeletePopup()">No</button>
+<button class="yes-btn" id="confirmDeleteBtn" onclick="fnlogoutSession();">Yes</button>
+</div>
+
+ 
+</div>
+</div>
+
+
+<input type="hidden" id="hidesessionid" />
+<input type="hidden" id="hidelogoutid" />
+
+<!-- <div class="toast" id="toast"></div> -->
+
+<script>
+/* Auth guard */
+$(document).ready(function () {
+    if (!sessionStorage.getItem("userid")) {
+        window.location.href = "login.html";
+        return;
+    }
+    const role = sessionStorage.getItem("role");
+    if (role !== "admin") {
+        $("#registrationmenu").hide();
+    }
+    $("#lbluser").html(sessionStorage.getItem("fullname"));
+    $("#lblroles").html(sessionStorage.getItem("role"));
+    setInterval(getwhattsapptokendetails, 2000);
+    getwhattsapptokendetails();
+});
+const rendered = {};
+const deleting = new Set();
+function openModal() {
+    $("#m-ov").addClass("open");
+    $("#m-lbl").focus();
+}
+function closeModal() {
+    $("#m-ov").removeClass("open");
+    $("#m-lbl").val("");
+}
+
+async function createSession() {
+    const label = $("#m-lbl").val().trim();
+    closeModal();
+    try {
+        const response = await fetch("/session/create", {
+            method: "POST",
+            headers: {
+                "Content-Type": "application/json"
+            },
+            body: JSON.stringify({
+                label: label
+            })
+        });
+        const data = await response.json();
+        console.log(JSON.stringify(data, null, 2));
+        if (data.success === true && data.sessionId) {
+            const userid = sessionStorage.getItem("userid");
+            if (!userid) {
+                showErrorMessage("❌ User ID not found");
+                return;
+            }
+            const sessionid = data.sessionId;
+            const createdby = sessionStorage.getItem("fullname");
+          const currentdate = new Date()
+                .toISOString()
+                .slice(0, 19)
+                .replace('T', ' ');
+            const dataset = {
+                label:label,
+                userid: userid,
+                sessionid: sessionid,
+                createdby: createdby,
+                currentdate: currentdate
+            };
+            // alert(JSON.stringify(dataset,null,2))
+            fetch("http://localhost:3000/createSessionForUser", {
+                method: "POST",
+                headers: {
+                    "Content-Type": "application/json"
+                },
+                body: JSON.stringify(dataset)
+            })
+            .then(res => res.json())
+            .then(response => {
+             showSuccessMessage("✅ Session created: " + sessionid);
+            })
+            .catch(err => {
+                console.log(err);
+                showErrorMessage("❌ Error saving session");
+            });
+        }
+        else {
+            showErrorMessage("❌ Session creation failed");
+        }
+    }
+    catch (err) {
+            showErrorMessage("❌ Error creating session");
+    }
+}
+
+
+async function logoutSession(id) {
+     $("#logoutPopup").css("display","flex");
+    $("#hidelogoutid").val(id);
+}
+
+async function fnlogoutSession()
+{
+     try {
+         var id = $("#hidelogoutid").val();
+        await fetch("/session/" + id + "/logout", {
+            method: "POST"
+        });
+         showSuccessMessage("👋 Logged out");
+         closelogoutDeletePopup();
+    } catch {
+        showErrorMessage("❌ Logout failed");
+    }
+     
+}
+
+function closelogoutDeletePopup()
+{
+    $("#logoutPopup").hide();
+$("#hidelogoutid").val('');
+}
+
+
+async function deleteSession(id) {
+    $("#deletePopup").css("display","flex");
+    $("#hidesessionid").val(id);
+}
+
+async function fndeletesession()
+{
+    var id = $("#hidesessionid").val();
+     if (deleting.has(id)) {
+        return;
+    }
+    deleting.add(id);
+    rendered[id] = "__deleted__";
+    const card = $("#card-" + id);
+    const userid  = sessionStorage.getItem("userid");
+    if (card.length) {
+        card.addClass("removing");
+        setTimeout(function () {
+            card.remove();
+        }, 230);
+    }
+   try {
+    await fetch("/session/" + id, {
+        method: "DELETE",
+        headers: {
+            "Content-Type": "application/json"
+        },
+        body: JSON.stringify({
+            userid: userid
+        })
+    })
+    .then(async res => {
+        const responseText = await res.text();
+        if (!res.ok) {
+            throw new Error(responseText);
+        }
+        return responseText;
+    })
+    .then(response => {
+        const data = JSON.parse(response);
+        showSuccessMessage(data.message);
+        closeDeletePopup();
+    });
+}
+catch (err) {
+    showErrorMessage("❌ Delete failed");
+    deleting.delete(id);
+    delete rendered[id];
+}
+}
+
+function closeDeletePopup(){
+$("#deletePopup").hide();
+$("#hidesessionid").val('');
+}
+
+function copyToken(token) {
+    navigator.clipboard.writeText(token)
+        .then(function () {
+         showSuccessMessage("📋 Token copied!");
+
+        })
+        .catch(function () {
+         showErrorMessage("❌ Failed");
+        });
+}
+
+// ===================================
+// Logout Function
+// ===================================
+function doLogout() {
+    sessionStorage.clear();
+    window.location.href = "login.html";
+}
+
+// ===================================
+// Toast Message Function
+// ===================================
+
+async function getwhattsapptokendetails() {
+    let data;
+    try {
+       const userid = sessionStorage.getItem("userid");
+        const response = await fetch("/sessions", {
+            method: "POST",
+            headers: {
+                "Content-Type": "application/json"
+            },
+            body: JSON.stringify({
+                userid: userid
+            })
+        });
+     data = await response.json();
+    } catch {
+        return;
+    }
+    // console.log(JSON.stringify(data, null, 2))
+    const entries = Object.entries(data);
+    
+    // ===============================
+    // Dashboard Counts
+    // ===============================
+    const connectedCount = entries.filter(
+        ([, session]) => session.status === "connected"
+    ).length;
+    const waitingCount = entries.length - connectedCount;
+    ["s-total", "c-total"].forEach(id => {
+        document.getElementById(id).textContent = entries.length;
+    });
+
+    ["s-conn", "c-conn"].forEach(id => {
+        document.getElementById(id).textContent = connectedCount;
+    });
+
+    ["s-wait", "c-wait"].forEach(id => {
+        document.getElementById(id).textContent = waitingCount;
+    });
+    document.getElementById("nav-badge").textContent = entries.length;
+    const grid = document.getElementById("grid");
+    // ===============================
+    // Empty State
+    // ===============================
+    if (entries.length === 0) {
+        if (!grid.querySelector(".empty")) {
+            grid.innerHTML = `
+                <div class="empty">
+                    <div class="empty-ico">💬</div>
+                    <h2>No sessions yet</h2>
+                    <p>
+                        Click "New Session" to create your first WhatsApp session
+                    </p>
+                </div>
+            `;
+        }
+
+        return;
+    }
+    const emptyCard = grid.querySelector(".empty");
+    if (emptyCard) {
+        emptyCard.remove();
+    }
+    // ===============================
+    // Remove Deleted Cards
+    // ===============================
+    const liveIds = new Set(
+        entries.map(([id]) => id)
+    );
+
+    grid.querySelectorAll('[id^="card-"]').forEach(element => {
+
+        const cardId = element.id.replace("card-", "");
+
+        if (!liveIds.has(cardId)) {
+
+            deleting.delete(cardId);
+
+            delete rendered[cardId];
+
+            if (!element.classList.contains("removing")) {
+                element.remove();
+            }
+        }
+    });
+    // ===============================
+    // Render Session Cards
+    // ===============================
+   for (const [id, session] of entries) {
+    if (deleting.has(id)) {
+        continue;
+    }
+
+    const key = [
+        session.status,
+        (session.qr || "").slice(-20),
+        session.token || "",
+        session.number || "",
+        session.label || ""
+    ].join("|");
+
+    if (!document.getElementById("card-" + id)) {
+
+        const div = document.createElement("div");
+
+        div.id = "card-" + id;
+
+        grid.appendChild(div);
+
+        rendered[id] = "__new__";
+    }
+
+    if (rendered[id] === key) {
+        continue;
+    }
+
+    rendered[id] = key;
+
+    const isConnected = session.status === "connected";
+    const isQr = session.status === "qr";
+    const card = document.getElementById("card-" + id);
+    const badge = isConnected
+        ? `
+        <span class="badge b-conn">
+            <span class="dot"></span>
+            Connected
+        </span>
+        `
+        : isQr
+        ? `
+        <span class="badge b-qr">
+            <span class="dot"></span>
+            Scan QR
+        </span>
+        `
+        : `
+        <span class="badge b-wait">
+            <span class="dot"></span>
+            Waiting…
+        </span>
+        `;
+
+    const infoHTML = isConnected
+        ? `
+        <div class="info-row">
+            <span>📞</span>
+            <div>
+                <div class="i-lbl">WhatsApp Number</div>
+                <div class="i-val">
+                    +${session.number}
+                </div>
+            </div>
+        </div>
+        `
+        : "";
+
+    const qrHTML = isQr
+        ? `
+        <div class="qr-box">
+            <img src="${session.qr}" alt="QR" loading="lazy" />
+            <div class="qr-hint">
+                📲 Scan with WhatsApp
+            </div>
+            <div class="qr-sub">
+                WhatsApp → Linked Devices → Link a Device
+            </div>
+        </div>
+        `
+        : "";
+
+    const tokenHTML = isConnected
+        ? `
+        <div class="tok-box">
+            <span>🔑</span>
+            <span class="tok-val">
+                ${session.token}
+            </span>
+        </div>
+        `
+        : "";
+
+      sessionStorage.setItem("tokenid", session.token);
+    const buttons = [
+        isConnected
+            ? `
+            <button class="btn btn-copy"
+                onclick="copyToken('${session.token}')">
+                📋 Copy Token
+            </button>
+            `
+            : "",
+
+        isConnected
+            ? `
+            <button class="btn btn-lo"onclick="logoutSession('${id}')">
+                ↩ Logout
+            </button>
+            `
+            : "",
+
+        `
+        <button class="btn btn-del" onclick="deleteSession('${id}')">🗑 Delete </button>
+        `
+    ].join("");
+
+    card.className =
+        "card" +
+        (isConnected
+            ? " connected"
+            : isQr
+            ? " qr-active"
+            : "");
+
+    card.innerHTML = `
+    <div class="card-top">
+
+        <div>
+
+            <div class="c-lbl">
+                ${session.label || "Session"}
+            </div>
+
+            <div class="c-id">
+                ${id}
+            </div>
+
+        </div>
+
+        ${badge}
+
+    </div>
+
+    ${infoHTML}
+
+    ${qrHTML}
+
+    ${tokenHTML}
+
+    <div class="card-acts">
+        ${buttons}
+    </div>
+
+    <div class="c-foot">
+
+        <span>
+            Created: ${formatDateTime(session.createdAt)}
+        </span>
+
+        <span>
+            Active: ${formatDateTime(session.lastActiveAt)}
+        </span>
+
+    </div>
+    `;
+}
+}
+
+
+function formatDateTime(dateString) {
+    const date = new Date(dateString);
+    const day = String(date.getDate()).padStart(2, '0');
+    const months = ["Jan", "Feb", "Mar", "Apr", "May", "Jun","Jul", "Aug", "Sep", "Oct", "Nov", "Dec"];
+    const month = months[date.getMonth()];
+    const year = date.getFullYear();
+    let hours = date.getHours();
+    const minutes = String(date.getMinutes()).padStart(2, '0');
+    const ampm = hours >= 12 ? 'PM' : 'AM';
+    hours = hours % 12;
+    hours = hours ? hours : 12;
+    hours = String(hours).padStart(2, '0');
+    return `${day}-${month}-${year} ${hours}:${minutes} ${ampm}`;
+}
+
+function showErrorMessage(message){
+clearTimeout(window.errorTimer);
+$("#errormsg").html(message + "<div class='cross' onclick='closeerrormsg();'>✕</div>");
+$("#errormsg").fadeIn();
+
+window.errorTimer=setTimeout(function(){
+$("#errormsg").fadeOut();
+},3000);
+
+}
+
+function showSuccessMessage(message){
+
+clearTimeout(window.successTimer);
+
+$("#successmsg").html(message + "<div class='cross' onclick='closesuccessmsg();'>✕</div>");
+
+$("#successmsg").fadeIn();
+
+window.successTimer=setTimeout(function(){
+$("#successmsg").fadeOut();
+},3000);
+
+}
+
+function closeerrormsg(){
+$("#errormsg").fadeOut();
+}
+
+function closesuccessmsg(){
+$("#successmsg").fadeOut();
+}
+
+
+</script>
+</body>
+</html>

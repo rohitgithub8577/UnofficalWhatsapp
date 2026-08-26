@@ -1,0 +1,467 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+<meta charset="UTF-8"/>
+<meta name="viewport" content="width=device-width,initial-scale=1"/>
+<title>Profile</title>
+<link rel="stylesheet" href="/style.css">
+<link rel="stylesheet" href="./css/wabacss.css" />
+<script src="./js/jquery-3.7.1.min.js"></script>
+<link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.5.1/css/all.min.css">
+<link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/4.7.0/css/font-awesome.min.css">
+
+</head>
+<body>
+<div id="errormsg"></div>
+<div id="successmsg"></div>
+<div class="wam-shell">
+
+  <!-- ════ SIDEBAR ════ -->
+  <aside class="wam-sidebar" id="wamSidebar">
+    <div class="wam-sb-toggle" id="wamToggle" onclick="toggleSidebar()" title="Toggle Menu">❮</div>
+
+    <div class="wam-sb-brand">
+      <div class="wam-sb-logo">💬</div>
+      <div class="wam-sb-brand-text">
+        <div class="wam-sb-brand-name">WA Manager</div>
+        <div class="wam-sb-brand-sub">Multi-Session</div>
+      </div>
+    </div>
+
+   <nav class="sb-nav">
+    <div class="nav-sec">Main Menu</div>
+
+   <a class="nav-item" href="dashboard.html">
+    <span class="nav-ico">
+        <i class="fa-solid fa-chart-line"></i>
+    </span>
+    Dashboard
+    <span class="nav-badge" id="nav-badge">0</span>
+</a>
+
+<a class="nav-item" id="registrationmenu" href="registration.html">
+    <span class="nav-ico">
+        <i class="fa-solid fa-user-plus"></i>
+    </span>
+    Registration
+</a>
+
+<a class="nav-item" href="createtemplate.html">
+    <span class="nav-ico">
+        <i class="fa-solid fa-file-lines"></i>
+    </span>
+    Template
+</a>
+
+<a class="nav-item" href="userprofile.html">
+    <span class="nav-ico">
+        <i class="fa-solid fa-user"></i>
+    </span>
+    Profile
+</a>
+
+  </nav>
+
+
+    <div class="wam-sb-footer">
+      <div class="wam-sb-user">
+        <div class="wam-sb-avatar">👤</div>
+        <div class="wam-sb-user-info">
+          <div class="wam-sb-user-name" id="lbluser"></div>
+          <div class="wam-sb-user-role" id="lblroles"></div>
+        </div>
+        <div class="wam-logout-btn" onclick="doLogout()" title="Logout">🚪</div>
+      </div>
+    </div>
+  </aside>
+
+  <!-- ════ MAIN ════ -->
+  <div class="wam-main" id="wamMain">
+
+    <!-- TOPBAR -->
+    <header class="wam-topbar">
+      <div class="wam-topbar-left">
+        <div class="wam-topbar-title">User Profile</div>
+        <div class="wam-topbar-crumb">
+          <a href="dashboard.html">Dashboard</a>
+          <span class="wam-crumb-sep">›</span>
+          <span>User Profile</span>
+        </div>
+      </div>
+    
+    </header>
+
+     <div class="profile-wrapper">
+
+<div class="profile-header">
+
+<div class="profile-top">
+
+<div class="profile-left">
+
+<div class="profile-avatar">
+<img id="profilelogo" src="https://i.pravatar.cc/150?img=12">
+</div>
+
+<div class="profile-info">
+
+<h2 id="lbname"></h2>
+
+<p id="lblemail"></p>
+
+</div>
+<div style="padding: 10px;">
+  <div id="success-banner" class="success-banner"></div>
+  <div id="error-banner" class="error-banner"></div>
+  </div>
+</div>
+
+<div class="profile-actions">
+
+<button class="btn btn-edit" id="btnedit" onclick="editdatauser();">
+✏️ Edit
+</button>
+
+<button class="btn btn-save" id="btnsave" onclick="savedatauserdetails();">
+💾 Save
+</button>
+
+<button class="btn btn-reset" id="btnreset" onclick="cleardata();">
+🔄 Reset
+</button>
+
+</div>
+
+</div>
+
+</div>
+
+<div class="profile-body">
+
+<table class="profile-table">
+
+<tr>
+<td>Full Name</td>
+<td id="lblfullname"></td>
+</tr>
+
+<tr>
+<td>Email Address</td>
+<td id="lblemailaddress"></td>
+</tr>
+
+<tr>
+<td>Mobile Number</td>
+<td id="lblmobile"></td>
+</tr>
+
+<tr>
+<td>Company</td>
+<td id="lblcompany"></td>
+</tr>
+
+<tr>
+<td>Branch</td>
+<td id="lblbranch"></td>
+</tr>
+
+<tr>
+<td>Role</td>
+<td id="lblrole"></td>
+</tr>
+
+<tr>
+<td>Status</td>
+<td id="lblstatus"></td>
+</tr>
+
+<tr>
+<td>Username</td>
+<td id="lblusername" style="width: 30%;"></td>
+<td style="font-weight: 600;color: #374151;background: #f9fafb;width: 15%;">Password</td>
+<td>
+<span id="lblpassword"></span>
+<i class="fa fa-refresh reset-icon" onclick="openResetPopup()" title="Reset Password"></i>
+</td>
+</tr>
+
+<tr>
+<td>Address</td>
+<td id="lbladdress"></td>
+</tr>
+
+</table>
+
+<!-- Password Reset Popup -->
+<div id="resetPopup" class="popup-overlay">
+    <div class="popup-box">
+        <span class="close-popup" onclick="closeResetPopup()"> &times;</span>
+        <h2>Reset Password</h2>
+        <input type="text" id="txtnewpassword" placeholder="Enter New Password" class="popup-input" />
+        <button onclick="passwordReset()" class="submit-btn">Submit</button>
+    </div>
+</div>
+<!--   password reset popup closed code -->
+
+</div>
+
+         </div>
+
+    <!-- FOOTER -->
+    <footer class="wam-footer">
+      <div class="wam-footer-copy">
+        © 2026 <strong>WA Manager</strong> · All rights reserved
+      </div>
+      <div class="wam-footer-links">
+        <a href="#">Privacy Policy</a>
+        <a href="#">Terms of Use</a>
+        <a href="#">Support</a>
+        <a href="#">API Docs</a>
+      </div>
+      <div class="wam-footer-version">v2.4.1</div>
+    </footer>
+
+  </div><!-- /wam-main -->
+</div><!-- /wam-shell -->
+
+
+
+<input type="hidden" id="hideuserid" />
+<script>
+if (!sessionStorage.getItem("userid"))
+{
+    window.location.href = "login.html";
+}
+window.onload=function(){
+const role=sessionStorage.getItem("role");
+if(role!=="admin"){
+$("#registrationmenu").hide();
+}
+$("#hideuserid").val(sessionStorage.getItem("userid"));
+$("#lbluser").html(sessionStorage.getItem("fullname"));
+$("#lblroles").html(sessionStorage.getItem("role"));
+$("#lblmobile").html(sessionStorage.getItem("mobileno"));
+$("#lbname").html(sessionStorage.getItem("fullname"));
+$("#lblfullname").html(sessionStorage.getItem("fullname"));
+$("#lblemail").html(sessionStorage.getItem("email"));
+$("#lblemailaddress").html(sessionStorage.getItem("email"));
+$("#lblrole").html(sessionStorage.getItem("role"));
+$("#lblstatus").html(sessionStorage.getItem("status"));
+$("#lblcompany").html(sessionStorage.getItem("company"));
+$("#lblbranch").html(sessionStorage.getItem("branch"));
+$("#lblusername").html(sessionStorage.getItem("username"));
+$("#lbladdress").html(sessionStorage.getItem("address"));
+$("#profilelogo").attr("src", sessionStorage.getItem("logo") || "images/default-user.png"
+);
+};
+function editdatauser()
+{
+$('#lblfullname').html('<input type="text" id="txtfullname" class="edit-input" value="'+$('#lblfullname').text()+'">');
+$('#lblmobile').html('<input type="text" id="txtmobile" class="edit-input" value="'+$('#lblmobile').text()+'">');
+$('#lblcompany').html('<input type="text" id="txtcompany" class="edit-input" value="'+$('#lblcompany').text()+'">');
+$('#lblbranch').html('<input type="text" id="txtbranch" class="edit-input" value="'+$('#lblbranch').text()+'">');
+$('#lblusername').html('<input type="text" id="txtusername" class="edit-input" value="'+$('#lblusername').text()+'">');
+$('#lbladdress').html('<input type="text" id="txtaddress" class="edit-input" value="'+$('#lbladdress').text()+'">');
+   let currentStatus = $('#lblstatus').text().trim();
+$('#lblstatus').html(`
+   <select id="txtstatus" class="edit-input">
+            <option value="">-- Select Status --</option>
+            <option value="Active" ${currentStatus == 'Active' ? 'selected' : ''}>Active</option>
+            <option value="Inactive" ${currentStatus == 'Inactive' ? 'selected' : ''}>Inactive</option>
+        </select>
+`);
+$('#lblemailaddress').html('<input type="text" id="txtemailaddress" class="edit-input" value="'+$('#lblemailaddress').text()+'">');
+$('.edit-input').show();
+$("#btnedit").hide();
+$('#btnsave').show();
+$('#btnreset').show();
+$("#txtusername").prop("disabled",true);
+}
+
+function savedatauserdetails()
+{
+const userid=$('#hideuserid').val();
+const fullname=$('#txtfullname').val();
+const email=$('#txtemailaddress').val();
+const mobile=$('#txtmobile').val();
+const company=$('#txtcompany').val();
+const branch=$('#txtbranch').val();
+const status=$('#txtstatus').val();
+const address=$('#txtaddress').val();
+const mobileno=$('#txtmobile').val();
+
+if(fullname===""){
+showErrorMessage("Name should not be blank");
+$('#txtname').focus();
+return;
+}
+
+if(email===""){
+showErrorMessage("Email Id should not be blank");
+$('#txtemailid').focus();
+return;
+}
+
+if(mobileno===""){
+showErrorMessage("Mobile number should not be blank");
+$('#txtmobileno').focus();
+return;
+}
+
+const data={
+  userid: userid,
+fullname:fullname,
+email:email,
+status:status,
+mobileno:mobileno,
+company:company,
+branch:branch,
+address:address
+};
+// alert(JSON.stringify(data,null,2));
+fetch("http://localhost:3000/userprofile",{
+method:"POST",
+headers: {
+    "Content-Type": "application/json"
+},
+body: JSON.stringify(data)
+})
+.then(res => {
+    if (!res.ok) throw new Error("Server Error");
+    return res.text();
+})
+.then(response => {
+   showSuccessMessage("Data updated successfully");
+    cleardata();
+})
+.catch(err => {
+     showErrorMessage("Somethings went wrong");
+});
+
+
+}
+
+function cleardata()
+{
+$("#lbluser").html(sessionStorage.getItem("fullname"));
+$("#lblroles").html(sessionStorage.getItem("role"));
+$("#lblmobile").html(sessionStorage.getItem("mobileno"));
+$("#lbname").html(sessionStorage.getItem("fullname"));
+$("#lblfullname").html(sessionStorage.getItem("fullname"));
+$("#lblemail").html(sessionStorage.getItem("email"));
+$("#lblemailaddress").html(sessionStorage.getItem("email"));
+$("#lblrole").html(sessionStorage.getItem("role"));
+$("#lblstatus").html(sessionStorage.getItem("status"));
+
+$("#lblcompany").html(sessionStorage.getItem("company"));
+$("#lblbranch").html(sessionStorage.getItem("branch"));
+
+$("#lblusername").html(sessionStorage.getItem("username"));
+$("#lbladdress").html(sessionStorage.getItem("address"));
+$("#profilelogo").attr("src", sessionStorage.getItem("logo") || "images/default-user.png"
+);
+$('#btnsave').hide();
+$('#btnreset').hide();
+$('#btnedit').show();
+$("#txtusername").prop("disabled",false);
+$("#txtpassword").prop("disabled",false);
+}
+
+function doLogout() {
+    sessionStorage.clear();
+    window.location.href = "login.html";
+
+}
+
+function openResetPopup()
+{
+    $("#resetPopup").css("display", "flex");
+}
+function closeResetPopup()
+{
+    $("#resetPopup").hide();
+    $("#txtnewpassword").val('');
+}
+function passwordReset()
+{
+  const userid= $('#hideuserid').val();
+    const newPassword = $("#txtnewpassword").val();
+    if(newPassword == "")
+    {
+        showErrorMessage("New Password should not be blank");
+        return;
+    }
+    const data={
+      userid: userid,
+    newPassword:newPassword
+    };
+// alert(JSON.stringify(data,null,2));
+  fetch("http://localhost:3000/userpasswordReset",{
+  method:"POST",
+  headers: {
+      "Content-Type": "application/json"
+  },
+  body: JSON.stringify(data)
+  })
+  .then(res => {
+      if (!res.ok) throw new Error("Server Error");
+      return res.text();
+  })
+  .then(response => {
+     showSuccessMessage("Password Reset Successfully");
+  closeResetPopup();
+    $("#txtnewpassword").val('');
+})
+.catch(err => {
+   showErrorMessage("Something went wrong");
+});
+    
+}
+
+function showErrorMessage(message){
+clearTimeout(window.errorTimer);
+$("#errormsg").html(message + "<div class='cross' onclick='closeerrormsg();'>✕</div>");
+$("#errormsg").fadeIn();
+window.errorTimer=setTimeout(function(){
+$("#errormsg").fadeOut();
+},3000);
+}
+
+function showSuccessMessage(message){
+clearTimeout(window.successTimer);
+$("#successmsg").html(message + "<div class='cross' onclick='closesuccessmsg();'>✕</div>");
+$("#successmsg").fadeIn();
+window.successTimer=setTimeout(function(){
+$("#successmsg").fadeOut();
+},3000);
+}
+
+function closeerrormsg(){
+$("#errormsg").fadeOut();
+}
+
+function closesuccessmsg(){
+$("#successmsg").fadeOut();
+}
+
+let sidebarOpen = true;
+function toggleSidebar() {
+  const sb = document.getElementById('wamSidebar');
+  const main = document.getElementById('wamMain');
+  const btn = document.getElementById('wamToggle');
+  sidebarOpen = !sidebarOpen;
+  if (!sidebarOpen) {
+    sb.classList.add('wam-collapsed');
+    main.classList.add('wam-main-collapsed');
+    btn.textContent = '❯';
+    btn.title = 'Expand Menu';
+  } else {
+    sb.classList.remove('wam-collapsed');
+    main.classList.remove('wam-main-collapsed');
+    btn.textContent = '❮';
+    btn.title = 'Collapse Menu';
+  }
+}
+</script>
+</body>
+</html> 

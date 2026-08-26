@@ -1,0 +1,658 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+<meta charset="UTF-8"/>
+<meta name="viewport" content="width=device-width,initial-scale=1"/>
+<title>Registration</title>
+<link rel="stylesheet" href="/style.css">
+ <link rel="stylesheet" href="./css/wabacss.css" />
+<script src="./js/jquery-3.7.1.min.js"></script>
+<link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.5.1/css/all.min.css">
+
+<style>
+
+</style>
+</head>
+<body>
+<div id="errormsg"></div>
+<div id="successmsg"></div>
+<div class="wam-shell">
+
+  <!-- ════ SIDEBAR ════ -->
+  <aside class="wam-sidebar" id="wamSidebar">
+    <div class="wam-sb-toggle" id="wamToggle" onclick="toggleSidebar()" title="Toggle Menu">❮</div>
+
+    <div class="wam-sb-brand">
+      <div class="wam-sb-logo">💬</div>
+      <div class="wam-sb-brand-text">
+        <div class="wam-sb-brand-name">WA Manager</div>
+        <div class="wam-sb-brand-sub">Multi-Session</div>
+      </div>
+    </div>
+
+  <nav class="sb-nav">
+    <div class="nav-sec">Main Menu</div>
+
+   <a class="nav-item" href="dashboard.html">
+    <span class="nav-ico">
+        <i class="fa-solid fa-chart-line"></i>
+    </span>
+    Dashboard
+    <span class="nav-badge" id="nav-badge">0</span>
+</a>
+
+<a class="nav-item" id="registrationmenu" href="registration.html">
+    <span class="nav-ico">
+        <i class="fa-solid fa-user-plus"></i>
+    </span>
+    Registration
+</a>
+
+<a class="nav-item" href="createtemplate.html">
+    <span class="nav-ico">
+        <i class="fa-solid fa-file-lines"></i>
+    </span>
+    Template
+</a>
+
+<a class="nav-item" href="userprofile.html">
+    <span class="nav-ico">
+        <i class="fa-solid fa-user"></i>
+    </span>
+    Profile
+</a>
+
+  </nav>
+
+
+
+    <div class="wam-sb-footer">
+      <div class="wam-sb-user">
+        <div class="wam-sb-avatar">👤</div>
+        <div class="wam-sb-user-info">
+          <div class="wam-sb-user-name" id="lbluser">Rohit Jaiswal</div>
+          <div class="wam-sb-user-role" id="lblroles">Admin</div>
+        </div>
+        <div class="wam-logout-btn" onclick="doLogout()" title="Logout">🚪</div>
+      </div>
+    </div>
+  </aside>
+
+  <!-- ════ MAIN ════ -->
+  <div class="wam-main" id="wamMain">
+
+    <!-- TOPBAR -->
+    <header class="wam-topbar">
+      <div class="wam-topbar-left">
+        <div class="wam-topbar-title">Registration</div>
+        <div class="wam-topbar-crumb">
+          <a href="dashboard.html">Dashboard</a>
+          <span class="wam-crumb-sep">›</span>
+          <span>New Registration</span>
+        </div>
+      </div>
+    </header>
+
+    <!-- PAGE CONTENT -->
+    <div class="wam-content">
+
+      <!-- FORM CARD -->
+      <div class="wam-card">
+        <div class="wam-section-head">
+          <div class="wam-section-ico">👤</div>
+          <div>
+            <div class="wam-section-title">Personal Information</div>
+            <div class="wam-section-sub">Fill in the details to register a new user</div>
+          </div>
+        </div>
+
+        <!-- Error Banner -->
+        <div class="wam-banner wam-banner-error" id="err-banner">⚠️ <span id="err-text"></span></div>
+
+        <div class="wam-form-body">
+          <!-- Row 1 -->
+          <div class="wam-form-row">
+            <div class="wam-field">
+              <label>Full Name <span class="wam-req">*</span></label>
+              <div class="wam-input-wrap">
+                <input type="text" id="txtname" placeholder="Enter full name"/>
+              </div>
+            </div>
+            <div class="wam-field">
+              <label>Email Address <span class="wam-req">*</span></label>
+              <div class="wam-input-wrap">
+                <input type="email" id="txtemailid" placeholder="example@company.com"/>
+              </div>
+            </div>
+            <div class="wam-field">
+              <label>Role <span class="wam-req">*</span></label>
+              <div class="wam-input-wrap">
+                <select id="dllrole">
+                  <option value="">-- Select Role --</option>
+                  <option value="admin">Admin</option>
+                  <option value="user">User</option>
+                </select>
+              </div>
+            </div>
+            <div class="wam-field">
+              <label>Status <span class="wam-req">*</span></label>
+              <div class="wam-input-wrap">
+                <select id="dllstatus">
+                  <option value="">-- Select Status --</option>
+                  <option value="Active">Active</option>
+                  <option value="Inactive">Inactive</option>
+                </select>
+              </div>
+            </div>
+            <div class="wam-field">
+              <label>Mobile No <span class="wam-req">*</span></label>
+              <div class="wam-input-wrap">
+                <input type="text" id="txtmobileno" placeholder="Enter mobile no" oninput="allowOnlyNumbers(this);" maxlength="12" />
+              </div>
+            </div>
+          </div>
+
+          <!-- Row 2 -->
+          <div class="wam-form-row">
+            <div class="wam-field">
+              <label>Company Name <span class="wam-req">*</span></label>
+              <div class="wam-input-wrap">
+                <input type="text" id="txtcompany" placeholder="Enter company name"/>
+              </div>
+            </div>
+            <div class="wam-field">
+              <label>Branch Name</label>
+              <div class="wam-input-wrap">
+                <input type="text" id="txtbranch" placeholder="Enter branch name or location"/>
+              </div>
+            </div>
+            <div class="wam-field">
+              <label>Username <span class="wam-req">*</span></label>
+              <div class="wam-input-wrap">
+                <input type="text" id="txtusername" placeholder="Choose a unique username" autocomplete="off"/>
+              </div>
+            </div>
+            <div class="wam-field">
+              <label>Password <span class="wam-req">*</span></label>
+              <div class="wam-input-wrap">
+                <input type="password" id="txtpassword" placeholder="Create a strong password" autocomplete="new-password"/>
+                <button class="wam-pw-toggle" type="button" onclick="togglePw('txtpassword',this)">👁️</button>
+              </div>
+            </div>
+            <div class="wam-field">
+              <label>Confirm Password <span class="wam-req">*</span></label>
+              <div class="wam-input-wrap">
+                <input type="password" id="txtconfirmpassword" placeholder="Re-enter your password" autocomplete="new-password"/>
+                <button class="wam-pw-toggle" type="button" onclick="togglePw('txtconfirmpassword',this)">👁️</button>
+              </div>
+            </div>
+          </div>
+
+          <!-- Row 3: Address + Logo -->
+          <div class="wam-form-row-2">
+            <div class="wam-field">
+              <label>Address</label>
+              <div class="wam-input-wrap">
+                <textarea id="txtaddress" placeholder="Enter full address (street, city, state, pincode)"></textarea>
+              </div>
+            </div>
+            <div class="wam-field">
+              <label>Company Logo</label>
+              <div class="wam-logo-upload" id="logo-drop">
+                <input type="file" id="txtlogo" accept="image/*" onchange="previewLogo(this)"/>
+                <div class="">🖼️</div>
+                <div class="wam-upload-title">Click to upload logo</div>
+                <div class="wam-upload-sub">PNG, JPG, SVG · Max 2MB</div>
+                <div class="wam-logo-preview" id="logo-preview">
+                  <img id="logo-img" src="" alt="Logo preview"/>
+                  <div class="wam-logo-preview-name" id="logo-name"></div>
+                </div>
+              </div>
+            </div>
+          </div>
+        </div>
+
+        <!-- Success Banner inside card -->
+        
+
+        <!-- Actions -->
+        <div class="wam-form-actions">
+          <button class="wam-btn wam-btn-primary" id="btn-submit" onclick="submitForm()">
+            Register User
+          </button>
+          <button class="wam-btn wam-btn-outline" onclick="cleardata()">Reset</button>
+          
+        </div>
+      
+      </div>
+
+      <!-- DATA GRID CARD -->
+      <div class="wam-grid-card">
+        <div class="wam-grid-head">
+          
+          <div class="wam-grid-search">
+            <span class="wam-grid-search-ico">🔍</span>
+            <input type="text" placeholder="Search Name..." id="userdatasearch" oninput="getregistrationdata()"/>
+          </div>
+
+          <div class="wam-grid-head-title">
+            Total User
+            <span class="wam-grid-count" id="grid-count">0</span>
+          </div>
+
+        </div>
+        <div class="wam-table-wrap">
+          <table class="wam-table">
+            <thead>
+              <tr>
+                <th>Actions</th>
+                <th>userid</th>
+                <th>Name</th>
+                <th>Email</th>
+                <th>Role</th>
+                <th>Status</th>
+                <th>Mobile No</th>
+                <th>Company</th>
+                <th>Branch</th>
+                <th>Username</th>
+                <th>Address</th>
+                <th>Created Date</th>
+                <th>Updated Date</th>
+
+              </tr>
+            </thead>
+            <tbody id="registertablebody">
+              <tr>
+                <td colspan="14">
+                  <div class="wam-table-empty">
+                    <span>📋</span>
+                    No users registered yet. Use the form above to add users.
+                  </div>
+                </td>
+              </tr>
+            </tbody>
+          </table>
+        </div>
+      </div>
+
+    </div><!-- /wam-content -->
+
+    <!-- FOOTER -->
+    <footer class="wam-footer">
+      <div class="wam-footer-copy">
+        © 2026 <strong>WA Manager</strong> · All rights reserved
+      </div>
+      <div class="wam-footer-links">
+        <a href="#">Privacy Policy</a>
+        <a href="#">Terms of Use</a>
+        <a href="#">Support</a>
+        <a href="#">API Docs</a>
+      </div>
+      <div class="wam-footer-version">v2.4.1</div>
+    </footer>
+
+  </div><!-- /wam-main -->
+</div><!-- /wam-shell -->
+
+<input type="hidden" id="hideregid" />
+
+<script>
+if(!sessionStorage.getItem("userid")){
+window.location.href="login.html";
+}
+$(document).ready(function(){
+const role=sessionStorage.getItem("role");
+if(role!=="admin"){
+$("#registrationmenu").hide();
+}
+$("#lbluser").html(sessionStorage.getItem("fullname"));
+$("#lblroles").html(sessionStorage.getItem("role"));
+getregistrationdata();
+});
+
+function doLogout(){
+sessionStorage.clear();
+window.location.href="login.html";
+}
+
+/* ── Logo preview ── */
+function previewLogo(inp){
+const file=inp.files[0];
+if(!file)return;
+if(file.size>2*1024*1024){
+showErrorMessage("❌ File too large (max 2MB)");
+
+inp.value='';
+return;
+}
+const reader=new FileReader();
+reader.onload=function(e){
+$('#logo-img').attr('src',e.target.result);
+$('#logo-name').text(file.name);
+$('#logo-preview').show();
+};
+reader.readAsDataURL(file);
+}
+/* ── Password toggle ── */
+function togglePw(id,btn){
+const inp=$('#'+id);
+inp.attr('type',inp.attr('type')==='password'?'text':'password');
+btn.textContent=inp.attr('type')==='password'?'👁️':'🙈';
+}
+
+function showErr(msg){
+        const el=$('#err-banner');
+        el.html('⚠️ '+msg);
+        el.addClass('show');
+        setTimeout(()=>{el.removeClass('show');},4000);
+}
+
+function submitForm(){
+const btn=$('#btn-submit');
+const txt=$('#sub-text');
+const id = $("#hideregid").val();
+const fullname=$('#txtname').val().trim();
+const email=$('#txtemailid').val().trim();
+const role=$('#dllrole').val();
+const status=$('#dllstatus').val();
+const mobileno=$('#txtmobileno').val().trim();
+const company=$('#txtcompany').val().trim();
+const branch=$('#txtbranch').val().trim();
+const username=$('#txtusername').val().trim();
+const password=$('#txtpassword').val().trim();
+const confirmpassword=$('#txtconfirmpassword').val().trim();
+const address=$('#txtaddress').val().trim();
+/* Validation */
+
+if(fullname===""){
+showErrorMessage("Name should not be blank");
+$('#txtname').focus();
+return;
+}
+
+if (email === "") {
+    showErrorMessage("Email Id should not be blank");
+    $('#txtemailid').focus();
+    return;
+}
+
+if (!validateEmail(email)) {
+    showErrorMessage("Please enter a valid Email Id");
+    $('#txtemailid').focus();
+    return;
+}
+
+if(role===""){
+showErrorMessage("Please Select Role");
+$('#dllrole').focus();
+return;
+}
+
+if(mobileno===""){
+showErrorMessage("Mobile number should not be blank");
+$('#txtmobileno').focus();
+return;
+}
+
+if(id === "")
+{
+
+if(username===""){
+showErrorMessage("Username should not be blank");
+$('#txtusername').focus();
+return;
+}
+
+if(password===""){
+showErrorMessage("Password should not be blank");
+$('#txtpassword').focus();
+return;
+}
+
+if(password!==confirmpassword){
+showErrorMessage("Password and Confirm Password do not match");
+$('#txtconfirmpassword').focus();
+return;
+}
+
+}
+const data={
+id:id,
+fullname:fullname,
+email:email,
+role:role,
+status:status,
+mobileno:mobileno,
+company:company,
+branch:branch,
+username:username,
+password:password,
+address:address,
+logo:$('#txtlogo').val()
+};
+
+
+fetch("http://localhost:3000/insertdataregister", {
+    method: "POST",
+    headers: {
+        "Content-Type": "application/json"
+    },
+    body: JSON.stringify(data)
+})
+.then(async res => {
+    const responseText = await res.text();
+    if (!res.ok) {
+        throw new Error(responseText);
+    }
+    return responseText;
+})
+.then(response => {
+  const data = JSON.parse(response);
+   showSuccessMessage(data.message);
+    cleardata();
+    getregistrationdata();
+})
+.catch(err => {
+
+    console.log(err);
+
+    showErrorMessage(err.message || "Something went wrong");
+});
+}
+
+
+function cleardata(){
+$('#hideregid').val('');
+$('#txtname').val('');
+$('#txtemailid').val('');
+$('#dllrole').val('');
+$('#dllstatus').val('');
+$('#txtmobileno').val('');
+$('#txtcompany').val('');
+$('#txtbranch').val('');
+$('#txtusername').val('');
+$('#txtpassword').val('');
+$('#txtconfirmpassword').val('');
+$('#txtaddress').val('');
+$('#txtlogo').val('');
+$('#logo-img').attr('src','');
+$('#logo-name').html('');
+$('#logo-preview').hide();
+$("#txtusername").prop("disabled",false);
+$("#txtpassword").prop("disabled",false);
+$("#txtconfirmpassword").prop("disabled",false);
+
+}
+
+async function getregistrationdata() {
+    try {
+      var username = $("#userdatasearch").val();
+       const response = await fetch(`http://localhost:3000/getregisterdata?username=${username}`, {
+        method: "GET",
+        headers: {
+            "Content-Type": "application/json"
+        }
+    });
+        const result = await response.json();
+        console.log(JSON.stringify(result,null,2))
+        let html = "";
+        result.data.forEach(item => {
+            html += `
+            <tr>
+              <td>
+                    <span style='font-size: 18px;color: #0078d4; cursor: pointer;' class="edit-btn" onclick="editregdata(${item.id})">
+                        <i class="fa fa-edit"></i>
+                    </span>
+                    <span  style='font-size: 15px;color: red; cursor: pointer;' class="delete-btn" onclick="deleteregdata(${item.id})">
+                        <i class="fa fa-trash"></i>
+                    </span>
+                </td>
+                <td>${item.id}</td>
+                <td>${item.name}</td>
+                <td>${item.email}</td>
+                <td>${item.role}</td>
+                <td>${item.status}</td>
+                <td>${item.mobileno}</td>
+                <td>${item.company}</td>
+                <td>${item.branch}</td>
+                <td>${item.username}</td>
+                <td>${item.address}</td>
+                <td>${formatDateTime(item.createddate)}</td>
+                <td>${formatDateTime(item.updateddate)}</td>
+            </tr>
+
+            `;
+
+        });
+
+        document.getElementById("registertablebody").innerHTML = html;
+        $("#grid-count").text(result.data.length);
+    }
+    catch(error){
+
+        console.log(error);
+
+    }
+
+}
+
+async function editregdata(id) {
+    try {
+        const response = await fetch(`http://localhost:3000/getregisterdatabyid?id=${id}`);
+        const result = await response.json();
+          $("html, body").animate({ scrollTop: 0 }, "slow");
+        const data = result.data[0];
+       $("#hideregid").val(data.id);
+        $("#txtname").val(data.name);
+        $("#txtemailid").val(data.email);
+        $("#dllrole").val(data.role);
+        $("#dllstatus").val(data.status);
+        $("#txtmobileno").val(data.mobileno);
+        $("#txtcompany").val(data.company);
+        $("#txtbranch").val(data.branch);
+        $("#txtaddress").val(data.address);
+        $("#txtusername").prop("disabled",true);
+        $("#txtpassword").prop("disabled",true);
+        $("#txtconfirmpassword").prop("disabled",true);
+            }
+            catch(error){
+                console.log(error);
+            }
+}
+
+async function deleteregdata(id)
+{
+  if (confirm("Are you sure want to delete ?")) {
+        fetch(`http://localhost:3000/deleteregisterdata?id=${id}`, {
+            method: "GET"
+        })
+        .then(response => response.json())
+        .then(result => {
+            showSuccessMessage(result.message);
+            getregistrationdata();
+        })
+        .catch(error => {
+          showErrorMessage(error);
+        });
+    }
+} 
+
+function formatDateTime(dateString) {
+    const date = new Date(dateString);
+    const day = String(date.getDate()).padStart(2, '0');
+    const months = ["Jan", "Feb", "Mar", "Apr", "May", "Jun","Jul", "Aug", "Sep", "Oct", "Nov", "Dec"];
+    const month = months[date.getMonth()];
+    const year = date.getFullYear();
+    let hours = date.getHours();
+    const minutes = String(date.getMinutes()).padStart(2, '0');
+    const ampm = hours >= 12 ? 'PM' : 'AM';
+    hours = hours % 12;
+    hours = hours ? hours : 12;
+    hours = String(hours).padStart(2, '0');
+    return `${day}-${month}-${year} ${hours}:${minutes} ${ampm}`;
+}
+
+function showErrorMessage(message){
+clearTimeout(window.errorTimer);
+$("#errormsg").html(message + "<div class='cross' onclick='closeerrormsg();'>✕</div>");
+$("#errormsg").fadeIn();
+
+window.errorTimer=setTimeout(function(){
+$("#errormsg").fadeOut();
+},3000);
+
+}
+
+function showSuccessMessage(message){
+
+clearTimeout(window.successTimer);
+
+$("#successmsg").html(message + "<div class='cross' onclick='closesuccessmsg();'>✕</div>");
+
+$("#successmsg").fadeIn();
+
+window.successTimer=setTimeout(function(){
+$("#successmsg").fadeOut();
+},3000);
+
+}
+
+function closeerrormsg(){
+$("#errormsg").fadeOut();
+}
+
+function closesuccessmsg(){
+$("#successmsg").fadeOut();
+}
+
+
+/* ── Sidebar Toggle ── */
+let sidebarOpen = true;
+function toggleSidebar() {
+  const sb = document.getElementById('wamSidebar');
+  const main = document.getElementById('wamMain');
+  const btn = document.getElementById('wamToggle');
+  sidebarOpen = !sidebarOpen;
+  if (!sidebarOpen) {
+    sb.classList.add('wam-collapsed');
+    main.classList.add('wam-main-collapsed');
+    btn.textContent = '❯';
+    btn.title = 'Expand Menu';
+  } else {
+    sb.classList.remove('wam-collapsed');
+    main.classList.remove('wam-main-collapsed');
+    btn.textContent = '❮';
+    btn.title = 'Collapse Menu';
+  }
+}
+
+function allowOnlyNumbers(obj) {
+    obj.value = obj.value.replace(/[^0-9]/g, '');
+}
+function validateEmail(email) {
+    var emailPattern = /^[^\s@]+@[^\s@]+\.[^\s@]+$/;
+    return emailPattern.test(email);
+}
+</script>
+</body>
+</html>
