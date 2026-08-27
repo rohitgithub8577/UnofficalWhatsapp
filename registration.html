@@ -432,7 +432,7 @@ logo:$('#txtlogo').val()
 };
 
 
-fetch("http://localhost:3000/insertdataregister", {
+fetch("/insertdataregister", {
     method: "POST",
     headers: {
         "Content-Type": "application/json"
@@ -487,7 +487,7 @@ $("#txtconfirmpassword").prop("disabled",false);
 async function getregistrationdata() {
     try {
       var username = $("#userdatasearch").val();
-       const response = await fetch(`http://localhost:3000/getregisterdata?username=${username}`, {
+       const response = await fetch(`/getregisterdata?username=${username}`, {
         method: "GET",
         headers: {
             "Content-Type": "application/json"
@@ -538,7 +538,7 @@ async function getregistrationdata() {
 
 async function editregdata(id) {
     try {
-        const response = await fetch(`http://localhost:3000/getregisterdatabyid?id=${id}`);
+        const response = await fetch(`/getregisterdatabyid?id=${id}`);
         const result = await response.json();
           $("html, body").animate({ scrollTop: 0 }, "slow");
         const data = result.data[0];
@@ -563,7 +563,8 @@ async function editregdata(id) {
 async function deleteregdata(id)
 {
   if (confirm("Are you sure want to delete ?")) {
-        fetch(`http://localhost:3000/deleteregisterdata?id=${id}`, {
+        // fetch(`http://localhost:3000/deleteregisterdata?id=${id}`, {
+        fetch(`/deleteregisterdata?id=${id}`, {
             method: "GET"
         })
         .then(response => response.json())

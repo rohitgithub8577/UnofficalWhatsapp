@@ -279,7 +279,8 @@ async function createSession() {
                 currentdate: currentdate
             };
             // alert(JSON.stringify(dataset,null,2))
-            fetch("http://localhost:3000/createSessionForUser", {
+            // fetch("http://localhost:3000/createSessionForUser", {
+            fetch("/createSessionForUser", {
                 method: "POST",
                 headers: {
                     "Content-Type": "application/json"

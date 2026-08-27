@@ -319,7 +319,8 @@ branch:branch,
 address:address
 };
 // alert(JSON.stringify(data,null,2));
-fetch("http://localhost:3000/userprofile",{
+// fetch("http://localhost:3000/userprofile",{
+fetch("/userprofile",{
 method:"POST",
 headers: {
     "Content-Type": "application/json"
@@ -396,7 +397,7 @@ function passwordReset()
     newPassword:newPassword
     };
 // alert(JSON.stringify(data,null,2));
-  fetch("http://localhost:3000/userpasswordReset",{
+  fetch("/userpasswordReset",{
   method:"POST",
   headers: {
       "Content-Type": "application/json"
