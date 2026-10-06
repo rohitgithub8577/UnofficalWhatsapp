@@ -1,0 +1,5 @@
+node_modules/
+baileys_auth/
+uploads/
+sessions.json
+phone_tokens.json

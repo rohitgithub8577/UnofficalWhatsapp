@@ -1,0 +1,342 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+<meta charset="UTF-8"/>
+<meta name="viewport" content="width=device-width,initial-scale=1"/>
+<title>Registration</title>
+<link rel="stylesheet" href="/style.css">
+ <link rel="stylesheet" href="./css/wabacss.css" />
+<script src="./js/jquery-3.7.1.min.js"></script>
+<link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.5.1/css/all.min.css">
+
+ <style>
+   table,tr,td{
+padding: 0px 10px 10px 10px;   
+   }
+  </style>
+</head>
+<body>
+<div id="errormsg"></div>
+<div id="successmsg"></div>
+<div class="wam-shell">
+
+  <!-- ════ SIDEBAR ════ -->
+  <aside class="wam-sidebar" id="wamSidebar">
+    <div class="wam-sb-toggle" id="wamToggle" onclick="toggleSidebar()" title="Toggle Menu">❮</div>
+
+    <div class="wam-sb-brand">
+      <div class="wam-sb-logo">💬</div>
+      <div class="wam-sb-brand-text">
+        <div class="wam-sb-brand-name">WA Manager</div>
+        <div class="wam-sb-brand-sub">Multi-Session</div>
+      </div>
+    </div>
+
+  <nav class="sb-nav">
+    <div class="nav-sec">Main Menu</div>
+
+   <a class="nav-item" href="dashboard.html">
+    <span class="nav-ico">
+        <i class="fa-solid fa-chart-line"></i>
+    </span>
+    Dashboard
+    <span class="nav-badge" id="nav-badge">0</span>
+</a>
+
+<a class="nav-item" id="registrationmenu" href="registration.html">
+    <span class="nav-ico">
+        <i class="fa-solid fa-user-plus"></i>
+    </span>
+    Registration
+</a>
+
+<a class="nav-item" href="createtemplate.html">
+    <span class="nav-ico">
+        <i class="fa-solid fa-file-lines"></i>
+    </span>
+    Template
+</a>
+
+<a class="nav-item" href="userprofile.html">
+    <span class="nav-ico">
+        <i class="fa-solid fa-user"></i>
+    </span>
+    Profile
+</a>
+
+  </nav>
+
+
+
+    <div class="wam-sb-footer">
+      <div class="wam-sb-user">
+        <div class="wam-sb-avatar">👤</div>
+        <div class="wam-sb-user-info">
+          <div class="wam-sb-user-name" id="lbluser">Rohit Jaiswal</div>
+          <div class="wam-sb-user-role" id="lblroles">Admin</div>
+        </div>
+        <div class="wam-logout-btn" onclick="doLogout()" title="Logout">🚪</div>
+      </div>
+    </div>
+  </aside>
+
+  <!-- ════ MAIN ════ -->
+  <div class="wam-main" id="wamMain">
+
+    <!-- TOPBAR -->
+    <header class="wam-topbar">
+      <div class="wam-topbar-left">
+        <div class="wam-topbar-title">Template</div>
+        <div class="wam-topbar-crumb">
+          <a href="dashboard.html">Dashboard</a>
+          <span class="wam-crumb-sep">›</span>
+          <span>Create Template</span>
+        </div>
+      </div>
+     
+    </header>
+
+    <!-- PAGE CONTENT -->
+    <div class="wam-content">
+
+<div class="wtf-page">
+  <div class="wtf-card">
+ 
+    <!-- Form Body -->
+    <div class="wtf-body">
+ 
+      <!-- Template Name -->
+       <table>
+        <tr>
+            <td style="width: 25%;">
+        <div class="wtf-field">
+        <label class="wtf-label">
+          Mobile number <span class="wtf-label-req">*</span>
+        </label>
+        <div class="wtf-mobile-row">
+           <input class="wtf-input" id="txtcountrycode" type="text" placeholder="91" value="" maxlength="2" style="width: 60px;" oninput="allowOnlyNumbers(this);" />
+          <input class="wtf-input" id="txtmobileno" type="tel" placeholder="10-digit number" maxlength="12" oninput="allowOnlyNumbers(this);" />
+        </div>
+      </div>
+            </td>
+            <td style="width: 25%;">
+        <div class="wtf-field">
+        <label class="wtf-label" for="wtf-token">
+          Token <span class="wtf-label-req">*</span>
+        </label>
+        <input class="wtf-input" id="txttoken" readonly type="text" placeholder="e.g. Token" autocomplete="off" />
+      </div>
+            </td>
+            <td style="width: 25%;">
+                 <div class="wtf-field">
+                <label class="wtf-label" for="wtf-tname">
+                Document <span class="wtf-label-req">*</span>
+                </label>
+                <input class="wtf-input" id="txtdocument" type="file" placeholder="e.g. order_confirmation" autocomplete="off" />
+               </div>
+            </td>
+        </tr>
+       </table>
+      <div class="wtf-field">
+        <label class="wtf-label">
+          Template body <span class="wtf-label-req">*</span>
+        </label>
+        <div class="wtf-rte-wrap" id="wtf-rte-wrap">
+          <div class="wtf-rte-toolbar">
+            <button class="wtf-tb-btn" id="wtf-tb-bold"  title="Bold (Ctrl+B)" aria-label="Bold">
+              <strong>B</strong>
+            </button>
+            <button class="wtf-tb-btn" id="wtf-tb-italic"  title="Italic (Ctrl+I)" aria-label="Italic">
+              <em style="font-family:Georgia,serif">I</em>
+            </button>
+            <div class="wtf-tb-sep"></div>
+            <button class="wtf-tb-btn" title="Bullet list" aria-label="Bullet list">
+              <svg width="14" height="14" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><line x1="9" y1="6" x2="20" y2="6"/><line x1="9" y1="12" x2="20" y2="12"/><line x1="9" y1="18" x2="20" y2="18"/><circle cx="4" cy="6" r="1.5" fill="currentColor" stroke="none"/><circle cx="4" cy="12" r="1.5" fill="currentColor" stroke="none"/><circle cx="4" cy="18" r="1.5" fill="currentColor" stroke="none"/></svg>
+            </button>
+            <button class="wtf-tb-btn" title="Numbered list" aria-label="Numbered list">
+              <svg width="14" height="14" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><line x1="10" y1="6" x2="21" y2="6"/><line x1="10" y1="12" x2="21" y2="12"/><line x1="10" y1="18" x2="21" y2="18"/><path d="M4 6h1v4"/><path d="M4 10h2"/><path d="M6 18H4c0-1 2-2 2-3s-1-1.5-2-1.5"/></svg>
+            </button>
+            <div class="wtf-tb-sep"></div>
+            <button class="wtf-tb-btn"  title="Clear formatting" aria-label="Clear formatting">
+              <svg width="14" height="14" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><path d="M13 10L19 4M19 4H13M19 4V10"/><path d="M3 20l7-7"/><path d="M5 18l-2 2"/><line x1="3" y1="3" x2="21" y2="21" stroke-width="1.5"/></svg>
+            </button>
+          </div>
+          <div class="wtf-rte-body" id="txtbodytemplate" contenteditable="true"
+            data-ph="Apna message yahan likhein... e.g. Namaste, aapka order confirm ho gaya hai."
+            spellcheck="true"></div>
+          <div class="wtf-rte-footer">
+            <span class="wtf-rte-hint">Bold · Italic · Lists supported</span>
+            <span class="wtf-char-count" id="wtf-ccount">0 / 1024</span>
+          </div>
+        </div>
+      </div>
+ 
+      <!-- Document Upload -->
+     <div class="wtf-field">
+</div>
+    </div><!-- /wtf-body -->
+    
+    <!-- Footer -->
+    <div class="wtf-footer">
+      <button class="wtf-btn-reset" onclick="wtfReset()">
+        Reset
+      </button>
+      <button class="wtf-btn-send" onclick="sendwhatsapp()">
+        Send Template
+      </button>
+    </div>
+ 
+  </div><!-- /wtf-card -->
+</div><!-- /wtf-page -->
+
+    </div><!-- /wam-content -->
+
+    <!-- FOOTER -->
+    <footer class="wam-footer">
+      <div class="wam-footer-copy">
+        © 2026 <strong>WA Manager</strong> · All rights reserved
+      </div>
+      <div class="wam-footer-links">
+        <a href="#">Privacy Policy</a>
+        <a href="#">Terms of Use</a>
+        <a href="#">Support</a>
+        <a href="#">API Docs</a>
+      </div>
+      <div class="wam-footer-version">v2.4.1</div>
+    </footer>
+
+  </div><!-- /wam-main -->
+</div><!-- /wam-shell -->
+
+<input type="hidden" id="hideregid" />
+
+<script>
+if(!sessionStorage.getItem("userid")){
+window.location.href="login.html";
+}
+$(document).ready(function(){
+const role=sessionStorage.getItem("role");
+const token = sessionStorage.getItem("tokenid");
+    $("#txttoken").val(token);
+if(role!=="admin"){
+$("#registrationmenu").hide();
+}
+$("#lbluser").html(sessionStorage.getItem("fullname"));
+$("#lblroles").html(sessionStorage.getItem("role"));
+});
+
+function doLogout(){
+sessionStorage.clear();
+window.location.href="login.html";
+}
+
+async function sendwhatsapp() {
+    const countrycode  = $("#txtcountrycode").val();
+    const mobileno     = $("#txtmobileno").val();
+    const token        = $("#txttoken").val();
+    const temp = document.createElement("div");
+    temp.innerHTML = $("#txtbodytemplate").html();
+    temp.querySelectorAll("div").forEach(div => {
+        div.insertAdjacentText("beforebegin", "\n");
+    });
+    const bodytemplate = temp.textContent.trim();
+// console.log(JSON.stringify(bodytemplate));
+    let file = "";
+      const fileInput = $("#txtdocument")[0];
+
+      if (fileInput.files.length > 0) {
+          file = fileInput.files[0];
+      }
+    const formData = new FormData();
+    formData.append("token", token);
+    formData.append("number", countrycode + mobileno);
+    formData.append("message", bodytemplate);
+    if (file) {
+        formData.append("file", file);
+    }
+    try {
+        const response = await fetch("/send", {
+            method: "POST",
+            body: formData
+        });
+        const data = await response.json();
+        if (data.success) {
+         showSuccessMessage("Message sent successfully");
+            cleardata();
+        } else {
+            showErrorMessage(data.error);
+        }
+    } catch (err) {
+     showErrorMessage("Send failed");
+    }
+
+}
+
+function cleardata()
+{
+    $("#txttemplatename").val('');
+    $("#txtcountrycode").val('');
+    $("#txtmobileno").val('');
+    $("#txtbodytemplate").html('');
+    $("#txtdocument").val('');
+}
+
+
+function showErrorMessage(message){
+clearTimeout(window.errorTimer);
+$("#errormsg").html(message + "<div class='cross' onclick='closeerrormsg();'>✕</div>");
+$("#errormsg").fadeIn();
+
+window.errorTimer=setTimeout(function(){
+$("#errormsg").fadeOut();
+},3000);
+
+}
+
+function showSuccessMessage(message){
+
+clearTimeout(window.successTimer);
+
+$("#successmsg").html(message + "<div class='cross' onclick='closesuccessmsg();'>✕</div>");
+
+$("#successmsg").fadeIn();
+
+window.successTimer=setTimeout(function(){
+$("#successmsg").fadeOut();
+},3000);
+
+}
+
+function closeerrormsg(){
+$("#errormsg").fadeOut();
+}
+
+function closesuccessmsg(){
+$("#successmsg").fadeOut();
+}
+
+
+let sidebarOpen = true;
+function toggleSidebar() {
+  const sb = document.getElementById('wamSidebar');
+  const main = document.getElementById('wamMain');
+  const btn = document.getElementById('wamToggle');
+  sidebarOpen = !sidebarOpen;
+  if (!sidebarOpen) {
+    sb.classList.add('wam-collapsed');
+    main.classList.add('wam-main-collapsed');
+    btn.textContent = '❯';
+    btn.title = 'Expand Menu';
+  } else {
+    sb.classList.remove('wam-collapsed');
+    main.classList.remove('wam-main-collapsed');
+    btn.textContent = '❮';
+    btn.title = 'Collapse Menu';
+  }
+}
+function allowOnlyNumbers(obj) {
+    obj.value = obj.value.replace(/[^0-9]/g, '');
+}
+</script>
+</body>
+</html>

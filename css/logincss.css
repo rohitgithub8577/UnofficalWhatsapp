@@ -1,0 +1,262 @@
+*{
+    margin:0;
+    padding:0;
+    box-sizing:border-box;
+    font-family:'Segoe UI',sans-serif;
+}
+
+body{
+    background:#f3f6fb;
+    height:100vh;
+    overflow:hidden;
+}
+
+.login-page{
+    width:100%;
+    height:100vh;
+    display:flex;
+    background:#fff;
+}
+
+.login-left{
+    width:50%;
+    position:relative;
+    background:
+    linear-gradient(rgba(20,120,255,0.78),rgba(20,120,255,0.88)),
+    url('https://images.unsplash.com/photo-1526374965328-7f61d4dc18c5?q=80&w=1200');
+    background-size:cover;
+    background-position:center;
+    color:#fff;
+}
+
+.overlay{
+    position:absolute;
+    inset:0;
+    background:
+    linear-gradient(to bottom right,
+    rgba(255,255,255,0.06),
+    transparent);
+}
+
+.left-content{
+    position:relative;
+    z-index:2;
+    height:100%;
+    display:flex;
+    flex-direction:column;
+    justify-content:center;
+    padding:50px;
+}
+
+.company{
+    position:absolute;
+    top:25px;
+    left:25px;
+    font-size:11px;
+    letter-spacing:1px;
+}
+
+.company-dot{
+    margin-right:5px;
+}
+
+.welcome-text{
+    font-size:20px;
+    margin-bottom:10px;
+    font-weight:300;
+}
+
+.welcome-title{
+    font-size:46px;
+    font-weight:700;
+    letter-spacing:2px;
+}
+
+.welcome-line{
+    width:55px;
+    height:4px;
+    background:#fff;
+    margin:18px 0;
+    border-radius:10px;
+}
+
+.welcome-desc{
+    width:360px;
+    line-height:22px;
+    font-size:11px;
+    opacity:0.92;
+}
+
+.login-right{
+    width:50%;
+    display:flex;
+    align-items:center;
+    justify-content:center;
+    background:#fff;
+}
+
+.login-box{
+    width:330px;
+}
+
+.login-box h2{
+    text-align:center;
+    color:#1877f2;
+    font-size:24px;
+    margin-bottom:10px;
+}
+
+.login-box p{
+    text-align:center;
+    color:#999;
+    font-size:11px;
+    line-height:18px;
+    margin-bottom:30px;
+}
+
+.input-group{
+    margin-bottom:18px;
+}
+
+.input-group input{
+    width:100%;
+    height:42px;
+    border:none;
+    border-left:3px solid #1877f2;
+    background:#f7f7f7;
+    padding:0 14px;
+    font-size:12px;
+    outline:none;
+}
+
+.login-options{
+    display:flex;
+    align-items:center;
+    justify-content:space-between;
+    margin-bottom:25px;
+    font-size:11px;
+}
+
+.remember-wrap{
+    display:flex;
+    align-items:center;
+    gap:6px;
+    color:#777;
+}
+
+.login-options a{
+    text-decoration:none;
+    color:#1877f2;
+    font-size:11px;
+}
+
+.login-btn{
+    width:100%;
+    height:42px;
+    border:none;
+    border-radius:30px;
+    background:#1877f2;
+    color:#fff;
+    font-size:12px;
+    letter-spacing:2px;
+    cursor:pointer;
+    transition:0.3s;
+    position:relative;
+}
+
+.login-btn:hover{
+    transform:translateY(-2px);
+    box-shadow:0 8px 18px rgba(24,119,242,0.30);
+}
+
+.alert{
+    margin-top:12px;
+    text-align:center;
+    font-size:11px;
+    color:red;
+}
+
+.spinner{
+    width:14px;
+    height:14px;
+    border:2px solid rgba(255,255,255,0.4);
+    border-top:2px solid #fff;
+    border-radius:50%;
+    animation:spin 1s linear infinite;
+    display:none;
+    position:absolute;
+    left:34%;
+    top:14px;
+}
+
+@keyframes spin{
+    100%{
+        transform:rotate(360deg);
+    }
+}
+
+@media(max-width:900px){
+
+    body{
+        overflow:auto;
+    }
+
+    .login-page{
+        flex-direction:column;
+    }
+
+    .login-left,
+    .login-right{
+        width:100%;
+    }
+
+    .login-left{
+        min-height:260px;
+    }
+
+    .welcome-title{
+        font-size:34px;
+    }
+
+    .welcome-desc{
+        width:100%;
+    }
+
+    .login-box{
+        width:90%;
+        padding:35px 0;
+    }
+
+}
+.alert{
+margin-top:12px;
+text-align:center;
+font-size:15px;
+display:none;
+font-weight:600;
+}
+
+.alert.success{
+color:#16a34a;
+}
+
+.alert.error{
+color:red;
+}
+.password-wrap{
+    position:relative;
+}
+
+.password-wrap input{
+    padding-right:45px;
+}
+
+.pw-icon{
+    position:absolute;
+    right:14px;
+    top:50%;
+    transform:translateY(-50%);
+    cursor:pointer;
+    font-size:14px;
+    color:#777;
+}
