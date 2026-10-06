@@ -1,8 +1,12 @@
 const mysql = require("mysql2");
 
-const connection = mysql.createConnection(
-    process.env.MYSQL_URL
-);
+const connection = mysql.createConnection({
+    host: "localhost",
+    user: "root",
+    password: "admin",
+    database: "dbwhatsapp",
+    port: 3306
+});
 
 connection.connect((err) => {
     if (err) {
@@ -19,16 +23,12 @@ module.exports = connection;
 
 
 
-
+// ----------------------- Railway Upload Configuration
 // const mysql = require("mysql2");
 
-// const connection = mysql.createConnection({
-//     host: "localhost",
-//     user: "root",
-//     password: "admin",
-//     database: "dbwhatsapp",
-//     port: 3306
-// });
+// const connection = mysql.createConnection(
+//     process.env.MYSQL_URL
+// );
 
 // connection.connect((err) => {
 //     if (err) {
