@@ -7,9 +7,11 @@ const makeWASocket = require('@whiskeysockets/baileys').default;
 const {
     useMultiFileAuthState,
     fetchLatestBaileysVersion,
-    DisconnectReason
+    DisconnectReason,
+    makeCacheableSignalKeyStore      
 } = require('@whiskeysockets/baileys');
-
+const pino = require('pino');        // NEW
+const logger = pino({ level: 'silent' }); // NEW
 const express        = require('express');
 const cors           = require('cors');
 const QRCode         = require('qrcode');
@@ -159,7 +161,8 @@ async function startSession(sessionId, label = '') {
             lastActiveAt  : saved.lastActiveAt || new Date().toISOString(),
             label         : saved.label        || label,
             destroyed     : false,
-            reconnectTimer: null
+            reconnectTimer: null,
+            msgStore      : new Map() 
         };
     } else {
         sessions[sessionId].destroyed      = false;
@@ -184,7 +187,11 @@ async function startSession(sessionId, label = '') {
 
     // Create socket
     const sock = makeWASocket({
-        auth                 : state,
+       auth: {
+        creds: state.creds,
+        keys : makeCacheableSignalKeyStore(state.keys, logger)   // NEW
+    },
+    logger,  
         version,
         printQRInTerminal    : false,
         syncFullHistory      : false,
@@ -192,7 +199,11 @@ async function startSession(sessionId, label = '') {
         connectTimeoutMs     : 60_000,
         defaultQueryTimeoutMs: 60_000,
         retryRequestDelayMs  : 2000,
-        browser              : ['Windows', 'Chrome', '120.0.0']
+        browser              : ['Windows', 'Chrome', '120.0.0'],
+
+        getMessage: async (key) => {
+        return s.msgStore.get(key.id) || undefined;
+    }
     });
 
     s.sock = sock;
@@ -202,7 +213,7 @@ async function startSession(sessionId, label = '') {
 
         // Safety: ignore events for destroyed sessions
         if (s.destroyed) return;
-
+         if (s.sock !== sock) return; 
         const { connection, qr, lastDisconnect } = update;
 
         /* ── QR received ── */
@@ -450,7 +461,7 @@ app.post('/send', upload.single('file'), async (req, res) => {
     message = (message || '').replace(/\\n/g, '\n');
 
     try {
-
+          let sent; 
         if (req.file) {
             const buffer = fs.readFileSync(req.file.path);
             const media = req.file.mimetype.startsWith('image/')
@@ -464,7 +475,7 @@ app.post('/send', upload.single('file'), async (req, res) => {
                     fileName: req.file.originalname,
                     caption: message || ''
                 };
-            await session.sock.sendMessage(
+           sent = await session.sock.sendMessage( 
                 `${number}@s.whatsapp.net`,
                 media
             );
@@ -472,11 +483,20 @@ app.post('/send', upload.single('file'), async (req, res) => {
         } else {
             if (!message)
                 return res.status(400).json({ error: 'Tempalte should not be blank' });
-            await session.sock.sendMessage(
+           sent = await session.sock.sendMessage(
                 `${number}@s.whatsapp.net`,
                 { text: message }
             );
         }
+
+            // NEW: store for getMessage (max 500 rakhenge)
+            if (sent?.key?.id && sent.message) {
+            session.msgStore.set(sent.key.id, sent.message);
+            if (session.msgStore.size > 500) {
+            session.msgStore.delete(session.msgStore.keys().next().value);
+            }
+            }
+
         session.lastActiveAt = new Date().toISOString();
         saveSessionMeta(sessionId);
         res.json({
